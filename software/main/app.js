@@ -337,23 +337,6 @@ let select_plantn = (plant,select) => {
                 check_p6 = '0'
             }
         }
-    } else if (plant == '5') {
-        if (check_p5 == '0') {
-            document.getElementById(`${select}`).style.border = "5px dashed red";
-            check_p5 = '1'
-        } else {
-            document.getElementById(`${select}`).style.border = "5px dashed black";
-            check_p5 = '0'
-        }
-    } else if (plant == '6') {
-        if (check_p6 == '0') {
-            document.getElementById(`${select}`).style.border = "5px dashed red";
-            check_p6 = '1'
-        } else {
-            document.getElementById(`${select}`).style.border = "5px dashed black";
-            check_p6 = '0'
-        }
-    }
 }
 
 let select_plantt = (plant, select) => {
