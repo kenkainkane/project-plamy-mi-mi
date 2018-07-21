@@ -1,16 +1,16 @@
 #include <SoftwareSerial.h>
 #include <Servo.h>
 #include "DHT.h"
-#define TRIG 3
+#define TRIG 2
 #define ECHO 14
-#define SER 11
+#define SER 3
 #define LDR 15
 #define DHTPIN 8
 #define DHTTYPE DHT11 
 #define MOTERBA 6
-#define MOTERBB 9
-#define MOTERAA 11
-#define MOTERAB 10
+#define MOTERBB 4
+#define MOTERAA 9
+#define MOTERAB 7
 
 DHT dht(DHTPIN,DHTTYPE);
 int buz_sta = 1;
@@ -68,12 +68,12 @@ long dis(){
 void walk(int cur_pos,int goto_pos){
   while(cur_pos!=goto_pos)
   {
-    Serial.print("cur_pos");
+    /*Serial.print("cur_pos");
     Serial.println(cur_pos);
     Serial.print("target_pos");
-    Serial.println(goto_pos);
+    Serial.println(goto_pos);*/
     if(cur_pos<goto_pos){
-      Serial.println("if 1");
+      //Serial.println("if 1");
       analogWrite(MOTERBA,100);
       analogWrite(MOTERBB,LOW);
       analogWrite(MOTERAA,100);
