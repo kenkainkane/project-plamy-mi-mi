@@ -4,6 +4,8 @@
 #include <math.h>
 #define LEDW1 D2
 #define LEDW2 D3
+#define LEDM1 D4
+#define LEDM2 D12
 SoftwareSerial se_read(D5, D6); // write only
 SoftwareSerial se_write(D0, D1); // read only
 String const url = "http://ecourse.cpe.ku.ac.th/exceed/api/";
@@ -170,8 +172,10 @@ void setup() {
   Serial.begin(115200);
   serial_initialization();
   wifi_initialization();
-  pinMode(LEDW1,HIGH);
-  pinMode(LEDW2,HIGH);
+  pinMode(LEDW1,OUTPUT);
+  pinMode(LEDW2,OUTPUT);
+  pinMode(LEDM1,OUTPUT);
+  pinMode(LEDM2,OUTPUT);
   Serial.print("sizeof(ServerData): ");
   Serial.println((int)sizeof(ServerData));
   Serial.print("ESP READY!");
@@ -198,11 +202,27 @@ void loop() {
     GET(get_builder("palmmy-watering").c_str(), get_request,server_data.watering); 
     Serial.print("watering: ");
     Serial.println(server_data.watering);
+
+    //Light of watering
     if(server_data.watering == -1){
       digitalWrite(LEDW1,HIGH);
-      digitalWrite(LEDW1,HIGH);}
-     else{}
-    
+      digitalWrite(LEDW2,HIGH);
+      }
+     else{
+      digitalWrite(LEDW1,LOW);
+      digitalWrite(LEDW2,LOW);
+      }
+      
+     //Light of moving
+     if(project_data.readysts == 0){
+      digitalWrite(LEDM1,HIGH);
+      digitalWrite(LEDM2,HIGH);
+     }
+     else{
+      digitalWrite(LEDM1,LOW);
+      digitalWrite(LEDM2,LOW);
+     }
+     
     GET(get_builder("palmmy-e_stop").c_str(), get_request,server_data.e_stop); 
     Serial.print("e_stop : ");
     Serial.println(server_data.e_stop);
@@ -263,7 +283,7 @@ void loop() {
               */
               POST(set_builder("palmmy-cur_pos", project_data->cur_pos).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-watering", project_data->watering).c_str(), update_data_to_server_callback);
-              POST(set_builder("palmmy-readysts", project_data->readysts).c_str(), update_data_to_server_callback);
+              //POST(set_builder("palmmy-readysts", project_data->readysts).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-lux", project_data->lux).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-humit", project_data->humit).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-temperature", project_data->temperature).c_str(), update_data_to_server_callback);
