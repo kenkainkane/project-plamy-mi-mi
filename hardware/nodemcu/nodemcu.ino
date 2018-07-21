@@ -8,28 +8,26 @@ SoftwareSerial se_write(D0, D1); // read only
 String const url = "http://ecourse.cpe.ku.ac.th:1515/api/";
 
 struct ProjectData {
-  int32_t light_sw;
-  int32_t air_sw;
-  int32_t door;
-  int32_t bell;
-  int32_t lux;
-  float humit;
+  int32_t cur_pos;  //0, 1, 2
+  int32_t watering; //-1, 0, n
+  int32_t readysts; //0, 1
+  int32_t lux; //100, 202, ...
+  float humit; 
   float temperature;
-} project_data = {0,0,0,0,100,60.6,25.5};
+} project_data = {0,0,0,100,65.5,25.5};
 
 struct ServerData {
-  int32_t light_sw;
-  int32_t air_sw;
-  int32_t door;
-  int32_t bell;
-} server_data = {0,1,0,1};
+  int32_t goto_pos; //0, 1
+  int32_t watering; //-1, 0, 100
+  int32_t e_stop; //0, 1
+} server_data = {0, 0, 0};
 
 const char GET_SERVER_DATA = 1;
 const char GET_SERVER_DATA_RESULT = 2;
 const char UPDATE_PROJECT_DATA = 3;
 
 // wifi configuration
-const char SSID[] = "KUWIN_FRONT_RIGHT_2.4GHz";
+const char SSID[] = "EXCEED_RIGHT_2_5GHz";
 const char PASSWORD[] = "1234567890";
 
 // for nodemcu communication
@@ -187,18 +185,16 @@ void loop() {
     //GET("http://ku-exceed-backend.appspot.com/api/exceed-temperature/view/", get_request,server_data.temp); 
     //Serial.print("temp : ");
     //Serial.println(server_data.temp);
-    GET(get_builder("palmmy-test").c_str(), get_request,server_data.light_sw); 
-    Serial.print("light_sw : ");
-    Serial.println(server_data.light_sw);
-    GET(get_builder("palmmy").c_str(), get_request,server_data.air_sw); 
-    Serial.print("air_sw : ");
-    Serial.println(server_data.air_sw);
-    GET(get_builder("palmmy").c_str(), get_request,server_data.door); 
-    Serial.print("door : ");
-    Serial.println(server_data.door);
-    GET(get_builder("palmmy").c_str(), get_request,server_data.bell); 
-    Serial.print("bell : ");
-    Serial.println(server_data.bell);
+    GET(get_builder("palmmy-goto_pos").c_str(), get_request,server_data.light_sw); 
+    Serial.print("goto_pos: ");
+    Serial.println(server_data.goto_pos);
+    GET(get_builder("palmmy-watering").c_str(), get_request,server_data.air_sw); 
+    Serial.print("watering: ");
+    Serial.println(server_data.watering);
+    GET(get_builder("palmmy-e_stop").c_str(), get_request,server_data.door); 
+    Serial.print("e_stop : ");
+    Serial.println(server_data.e_stop);
+    
     //GET("http://ku-exceed-backend.appspot.com/api/exceed_value/set/?value=test", 0);
     //Serial.println(project_data->light_sw);
     /*POST(set_builder("palmmy-test", project_data.light_sw).c_str(), update_data_to_server_callback);
@@ -243,19 +239,12 @@ void loop() {
               int32_t plus = project_data->plus;
               Serial.println(plus);
               */
-              POST(set_builder("palmmy-light_sw", project_data->light_sw).c_str(), update_data_to_server_callback);
-              POST(set_builder("palmmy-air_sw", project_data->air_sw).c_str(), update_data_to_server_callback);
-              POST(set_builder("palmmy-door", project_data->door).c_str(), update_data_to_server_callback);
-              POST(set_builder("palmmy-bell", project_data->bell).c_str(), update_data_to_server_callback);
+              POST(set_builder("palmmy-cur_pos", project_data->cur_pos).c_str(), update_data_to_server_callback);
+              POST(set_builder("palmmy-watering", project_data->watering).c_str(), update_data_to_server_callback);
+              POST(set_builder("palmmy-readysts", project_data->readysts).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-lux", project_data->lux).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-humit", project_data->humit).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-temperature", project_data->temperature).c_str(), update_data_to_server_callback);
-              /*POST(set_builder("exceed-temp", temp).c_str(), update_data_to_server_callback);
-              POST(set_builder("exceed-light_lux", light_lux).c_str(), update_data_to_server_callback);
-              POST(set_builder("exceed-is_button_pressed", is_button_pressed).c_str(), update_data_to_server_callback);
-              POST(set_builder("exceed-sound", sound).c_str(), update_data_to_server_callback);
-              POST(set_builder("exceed-door", door).c_str(), update_data_to_server_callback);
-              POST(set_builder("exceed-plus", plus).c_str(), update_data_to_server_callback);*/
             }
             break;
           case GET_SERVER_DATA:
