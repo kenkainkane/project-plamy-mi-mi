@@ -1,11 +1,15 @@
 #include <SoftwareSerial.h>
-#include<Servo.h>
+#include <Servo.h>
+#define TRIG 3
+#define ECHO 14
+#define SER 11
+#define LDR 15
 
 int buz_sta = 1;
 Servo servod;
 
 SoftwareSerial se_read(12, 13); // write only
-SoftwareSerial se_write(10, 11); // read only
+SoftwareSerial se_write(10, 11); // 10->7, 11->8
 
 struct ProjectData {
   int32_t cur_pos;  //0, 1, 2
@@ -40,6 +44,9 @@ void send_to_nodemcu(char code, void *data, char data_size) {
 }
 
 void setup() {
+
+
+  pinMode(LDR,INPUT);
   Serial.begin(115200);
   se_read.begin(38400);
   se_write.begin(38400);
@@ -73,6 +80,7 @@ void loop() {
 
     last_sent_time = cur_time;
   }
+  project_data.lux = analogRead(LDR);
   
   while (se_read.available()) {
     char ch = se_read.read();
