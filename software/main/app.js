@@ -14,6 +14,7 @@ let watering = '0'
 let done = '0'
 let location_start = '0'
 let location_end = '0'
+const time_sec = '60'
 
 //status
 let time_p1 = '0'
@@ -51,15 +52,23 @@ let check_d3 = '0'
 let check_d4 = '0'
 let check_d5 = '0'
 let check_d6 = '0'
+
+let hr = '0'
+let date_hr = '0'
+let min = '0'
+let date_min = '0'
 $(function () {
     setInterval(function () {
 
         //get data from hardware
         $(get_value)
-
-        cur_per = cur_pos
-        
+        if(cur_per === '0'){
+            document.getElementById("pos-0").style.backgroundColor = "yellow";
+        }else{
+            document.getElementById("pos-0").style.backgroundColor = "rgba(66, 66, 66, 0.70)";
+        }
         if(cur_per === '1'){
+            document.getElementById("pos-1").style.backgroundColor = "yellow";
             if(change === '1'){
                 document.getElementById("plant-s1").style.border = "5px dashed blue";
                 document.getElementById("plant-s2").style.border = "5px dashed blue";
@@ -68,11 +77,13 @@ $(function () {
                 document.getElementById("plant-s2").style.border = "5px solid blue";
             }
         } else {
+            document.getElementById("pos-1").style.backgroundColor = "rgba(66, 66, 66, 0.70)";
             document.getElementById("plant-s1").style.border = "5px solid black";
             document.getElementById("plant-s2").style.border = "5px solid black";
         }
 
         if (cur_per === '2') {
+            document.getElementById("pos-2").style.backgroundColor = "yellow";
             if (change === '1') {
                 document.getElementById("plant-s3").style.border = "5px dashed blue";
                 document.getElementById("plant-s4").style.border = "5px dashed blue";
@@ -81,11 +92,13 @@ $(function () {
                 document.getElementById("plant-s4").style.border = "5px solid blue";
             }
         }else{
+            document.getElementById("pos-2").style.backgroundColor = "rgba(66, 66, 66, 0.70)";
             document.getElementById("plant-s3").style.border = "5px solid black";
             document.getElementById("plant-s4").style.border = "5px solid black";
         }
 
         if (cur_per === '3') {
+            document.getElementById("pos-3").style.backgroundColor = "yellow";
             if (change === '1') {
                 document.getElementById("plant-s5").style.border = "5px dashed blue";
                 document.getElementById("plant-s6").style.border = "5px dashed blue";
@@ -94,16 +107,10 @@ $(function () {
                 document.getElementById("plant-s6").style.border = "5px solid blue";
             }
         } else {
+            document.getElementById("pos-3").style.backgroundColor = "rgba(66, 66, 66, 0.70)";
             document.getElementById("plant-s5").style.border = "5px solid black";
             document.getElementById("plant-s6").style.border = "5px solid black";
         }
-
-        $(select_plantn('1', 'plant_n1'))
-        $(select_plantn('2', 'plant_n2'))
-        $(select_plantn('3', 'plant_n3'))
-        $(select_plantn('4', 'plant_n4'))
-        $(select_plantn('5', 'plant_n5'))
-        $(select_plantn('6', 'plant_n6'))
 
         if (change === '1') {
             change = '0'
@@ -111,22 +118,18 @@ $(function () {
             change = '1'
         }
     }, 1000)
-    $('#test').click(function () {
-        set('cur_pos', '1')
-    })
-    $('#emergency-button').click(function () {
-        set('emg', '1')
-    })
-
+    
     //emergency butt
     $('#emergency-button').on('click', function () {
-        set('emg', '1')
+       $(set('emer','1'))
     })
 
-    //ok butt[now]
-    $('#ok-now').on('click', function () {
-        location_start = Math.min(check_list)
-        location_end = Math.max(check_list)
+    $('#hr0').click(function () {
+        console.log('hr0')
+      })
+    //submit[now]
+    $('#submit-t').on('click', function () {
+       console.log(`${hr} : ${min}`)
     })
 
      $(`#plant-n1`).click(function () {
@@ -199,6 +202,128 @@ $(function () {
 
      $(`#plant-t6`).click(function () {
         $(select_plantn('6','plant-t6'))
+     })
+
+     $(`#hr0`).click(function () {
+       hr = '0'
+       document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr1`).click(function () {
+        hr = '1'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr2`).click(function () {
+        hr = '2'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr3`).click(function () {
+        hr = '3'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr4`).click(function () {
+        hr = '4'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr5`).click(function () {
+        hr = '5'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr6`).click(function () {
+        hr = '6'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr7`).click(function () {
+        hr = '7'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr8`).click(function () {
+        hr = '8'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr9`).click(function () {
+        hr = '9'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr10`).click(function () {
+        hr = '10'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr11`).click(function () {
+        hr = '11'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr12`).click(function () {
+        hr = '12'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr13`).click(function () {
+        hr = '13'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr14`).click(function () {
+        hr = '14'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr15`).click(function () {
+        hr = '15'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr16`).click(function () {
+        hr = '16'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr17`).click(function () {
+        hr = '17'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr18`).click(function () {
+        hr = '18'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr19`).click(function () {
+        hr = '19'
+        document.getElementById("hour-select").innerHTML = hr; 
+     })
+     $(`#hr20`).click(function () {
+        hr = '20'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr21`).click(function () {
+        hr = '21'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr22`).click(function () {
+        hr = '22'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#hr23`).click(function () {
+        hr = '23'
+        document.getElementById("hour-select").innerHTML = hr;
+     })
+     $(`#min0`).click(function () {
+        min = '0'
+        document.getElementById("minute-select").innerHTML = min;
+        
+     })
+     $(`#min10`).click(function () {
+        min = '10'
+        document.getElementById("minute-select").innerHTML = min;
+     })
+     $(`#min20`).click(function () {
+        min = '20'
+        document.getElementById("minute-select").innerHTML = min;
+     })
+     $(`#min30`).click(function () {
+        min = '30'
+        document.getElementById("minute-select").innerHTML = min;
+     })
+     $(`#min40`).click(function () {
+        min = '40'
+        document.getElementById("minute-select").innerHTML = min;
+     })
+     $(`#min50`).click(function () {
+        min = '50'
+        document.getElementById("minute-select").innerHTML = min;
      })
 })
 
@@ -288,7 +413,6 @@ let move = (position) => {
 
 let select_plantn = (plant,select) => {
         if(plant == '1'){
-            console.log('test')
             if(check_p1 == '0'){
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_p1 = '1'
