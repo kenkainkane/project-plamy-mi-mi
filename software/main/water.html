@@ -27,13 +27,13 @@
             </div>
             <nav id="fh5co-main-nav" role="navigation">
                 <ul>
-                    <li><a href="status.html">Status</a></li>
-                    <li><a class="active" href="water.html">Let's water !!</a></li>
+                    <li><a href="status.html" id="status-water">Status</a></li>
+                    <li><a class="active" href="water.html" id="water-water">Let's water !!</a></li>
                 </ul>
             </nav>
         </div>
         <div style="padding-top: 5em"></div>
-        <div>
+        <div id="water-start">
             <div class="container">
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item">
@@ -283,6 +283,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
         crossorigin="anonymous"></script>
     <script src="./app.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.scrollTo(0,300);
+        });
+    </script>
 </body>
 
 </html>

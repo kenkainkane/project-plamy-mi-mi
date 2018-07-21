@@ -111,6 +111,31 @@ $(function () {
             change = '1'
         }
     }, 1000)
+
+    $('#status-index').click(function(){
+        $(scrollstatus())
+    })
+
+    $('#status-status').click(function(){
+        $(scrollstatus())
+    })
+
+    $('#status-water').click(function(){
+        $(scrollstatus())
+    })
+
+    $('#water-index').click(function(){
+        $(scrollwater())
+    })
+
+    $('#water-status').click(function(){
+        $(scrollwater())
+    })
+
+    $('#water-water').click(function(){
+        $(scrollwater())
+    })
+
     $('#test').click(function () {
         set('cur_pos', '1')
     })
@@ -211,6 +236,13 @@ let GET = (u) => {
     });
 }
 
+let scrollwater = () => {
+    document.getElementById('water-start').scrollIntoView();  
+}
+
+let scrollstatus = () => {
+    document.getElementById('status-start').scrollIntoView();  
+}
 
 let get_value = () => {
     let test = GET('cur_pos').then((res) => {
