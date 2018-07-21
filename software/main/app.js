@@ -1,11 +1,11 @@
 //hardware
-let cur_per = '0'
+let cur_pos = '0'
 let watering_min = '0'
 let ready = '0'
 let lux = '0'
 let humit = '0'
 let temp = '0'
-
+let cur_per = '0'
 //
 let change = '0'
 //move
@@ -55,9 +55,9 @@ $(function () {
     setInterval(function () {
 
         //get data from hardware
-        // $(get_value)
-        
+        $(get_value)
 
+        cur_per = cur_pos
         
         if(cur_per === '1'){
             if(change === '1'){
@@ -81,8 +81,8 @@ $(function () {
                 document.getElementById("plant-s4").style.border = "5px solid blue";
             }
         }else{
-            document.getElementById("plant-s3").style.border = "5px solid blue";
-            document.getElementById("plant-s4").style.border = "5px solid blue";
+            document.getElementById("plant-s3").style.border = "5px solid black";
+            document.getElementById("plant-s4").style.border = "5px solid black";
         }
 
         if(cur_per === '3'){
@@ -98,12 +98,6 @@ $(function () {
             document.getElementById("plant-s6").style.border = "5px solid black";
         }
 
-        $(select_plantn('1','plant_n1'))
-        $(select_plantn('2','plant_n2'))
-        $(select_plantn('3','plant_n3'))
-        $(select_plantn('4','plant_n4'))
-        $(select_plantn('5','plant_n5'))
-        $(select_plantn('6','plant_n6'))
 
         if(change === '1'){
             change = '0'
@@ -111,6 +105,7 @@ $(function () {
             change = '1'
         }
     }, 1000)
+
     $('#test').click(function(){
         set('cur_pos','1')
     })
@@ -132,6 +127,74 @@ $(function () {
      $(`#plant-n1`).click(function () {
         $(select_plantn('1','plant-n1'))
      })
+
+     $(`#plant-n2`).click(function () {
+        $(select_plantn('2','plant-n2'))
+     })
+
+     $(`#plant-n3`).click(function () {
+        $(select_plantn('3','plant-n3'))
+     })
+
+     $(`#plant-n4`).click(function () {
+        $(select_plantn('4','plant-n4'))
+     })
+
+     $(`#plant-n5`).click(function () {
+        $(select_plantn('5','plant-n5'))
+     })
+
+     $(`#plant-n6`).click(function () {
+        $(select_plantn('6','plant-n6'))
+     })
+
+     $(`#plant-d1`).click(function () {
+        $(select_plantn('1','plant-d1'))
+     })
+
+     $(`#plant-d2`).click(function () {
+        $(select_plantn('2','plant-d2'))
+     })
+
+     $(`#plant-d3`).click(function () {
+        $(select_plantn('3','plant-d3'))
+     })
+
+     $(`#plant-d4`).click(function () {
+        $(select_plantn('4','plant-d4'))
+     })
+
+     $(`#plant-d5`).click(function () {
+        $(select_plantn('5','plant-d5'))
+     })
+
+     $(`#plant-d6`).click(function () {
+        $(select_plantn('6','plant-d6'))
+     })
+
+     $(`#plant-t1`).click(function () {
+        $(select_plantn('1','plant-t1'))
+     })
+
+     $(`#plant-t2`).click(function () {
+        $(select_plantn('2','plant-t2'))
+     })
+
+     $(`#plant-t3`).click(function () {
+        $(select_plantn('3','plant-t3'))
+     })
+
+     $(`#plant-t4`).click(function () {
+        $(select_plantn('4','plant-t4'))
+     })
+
+     $(`#plant-t5`).click(function () {
+        $(select_plantn('5','plant-t5'))
+     })
+
+     $(`#plant-t6`).click(function () {
+        $(select_plantn('6','plant-t6'))
+     })
 })
 
 let GET = (u) => {
@@ -146,7 +209,7 @@ let GET = (u) => {
 
 let get_value = () => {
     let test = GET('cur_pos').then((res) => {
-        cur_per = res
+        cur_pos = res
     })
     let test2 = GET('watering').then((res) => {
         watering = res
@@ -225,7 +288,7 @@ let select_plantn = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_p1 = '1'
              }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_p1 = '0'
             }
         }else if(plant == '2'){
@@ -233,7 +296,7 @@ let select_plantn = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_p2 = '1'
             }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_p2 = '0'
             }
         }else if(plant == '3'){
@@ -241,7 +304,7 @@ let select_plantn = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_p3 = '1'
             }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_p3 = '0'
             }
         }else if(plant == '4'){
@@ -249,7 +312,7 @@ let select_plantn = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_p4 = '1'
             }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_p4 = '0'
             }
         }else if(plant == '5'){
@@ -257,7 +320,7 @@ let select_plantn = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_p5 = '1'
             }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_p5 = '0'
             }
         }else if(plant == '6'){
@@ -265,7 +328,7 @@ let select_plantn = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_p6 = '1'
             }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_p6 = '0'
             }
         }
@@ -278,7 +341,7 @@ let select_plantt = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_t1 = '1'
              }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_t1 = '0'
             }
         }else if(plant == '2'){
@@ -286,7 +349,7 @@ let select_plantt = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_t2 = '1'
             }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_t2 = '0'
             }
         }else if(plant == '3'){
@@ -294,7 +357,7 @@ let select_plantt = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_t3 = '1'
             }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_t3 = '0'
             }
         }else if(plant == '4'){
@@ -302,7 +365,7 @@ let select_plantt = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_t4 = '1'
             }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_t4 = '0'
             }
         }else if(plant == '5'){
@@ -310,7 +373,7 @@ let select_plantt = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_t5 = '1'
             }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_t5 = '0'
             }
         }else if(plant == '6'){
@@ -318,7 +381,7 @@ let select_plantt = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
                 check_t6 = '1'
             }else{
-                document.getElementById(`${select}`).style.border = "5px dashed black";
+                document.getElementById(`${select}`).style.border = "5px solid black";
                 check_t6 = '0'
             }
         }
