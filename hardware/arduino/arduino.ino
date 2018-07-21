@@ -44,7 +44,7 @@ struct ServerData {
 const char GET_SERVER_DATA = 1;
 const char GET_SERVER_DATA_RESULT = 2;
 const char UPDATE_PROJECT_DATA = 3;
-const char UPDATE_CURRENT_POSSITION = 4;
+const char UPDATE_CURRENT_STATUS = 4;
 
 void send_to_nodemcu(char code, void *data, char data_size) {
   char *b = (char*)data; 
@@ -73,7 +73,7 @@ void walk(int cur_pos,int goto_pos){
   while(cur_pos!=goto_pos)
   {
     project_data.cur_pos = cur_pos;
-
+    send_to_nodemcu(UPDATE_CURRENT_POSSITION, &project_data, sizeof(ProjectData));
     /*Serial.print("cur_pos");
     Serial.println(cur_pos);
     Serial.print("target_pos");
@@ -126,8 +126,8 @@ void walk(int cur_pos,int goto_pos){
 
 //================EndMethod
 void setup() {
-
-
+  servod.attach(SER);
+  server.write(0);
   pinMode(LDR,INPUT);
   Serial.begin(115200);
   se_read.begin(38400);
@@ -195,6 +195,23 @@ void loop() {
             Serial.println(data->e_stop);
             if(data->goto_pos!=project_data.cur_pos){
               walk(0,1);
+            }
+            if(data->watering!=0){
+              uint32_t water_temp = data->watering;
+              project_data.watering = -1;
+              send_to_nodemcu(UPDATE_CURRENT_POSSITION, &project_data, sizeof(ProjectData));
+              servod.write(90);
+              delay(water_temp*1000);
+              servod.write(0); 
+              /*uint32_t start_time_count = millis();
+              while(millis()-start_time_count <= data->watering*1000)
+              {
+                
+                delay(500);
+                if()
+              }*/
+              project_data.watering = 0;
+              send_to_nodemcu(UPDATE_CURRENT_POSSITION, &project_data, sizeof(ProjectData));
             }
             
             //send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));

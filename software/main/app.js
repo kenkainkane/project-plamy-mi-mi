@@ -74,12 +74,16 @@ $(function () {
         }
 
         if(cur_per === '0'){
-            document.getElementById("pos-0").style.backgroundColor = "yellow";
+            document.getElementById("pos-0").style.backgroundImage = "url(../images/firetruck.png)";
+            document.getElementById("pos-0").style.backgroundRepeat = "no-repeat";
+            document.getElementById("pos-0").style.backgroundPosition = "center center";
         }else{
             document.getElementById("pos-0").style.backgroundColor = "rgba(66, 66, 66, 0.70)";
         }
         if(cur_per === '1'){
-            document.getElementById("pos-1").style.backgroundColor = "yellow";
+            document.getElementById("pos-1").style.backgroundImage = "url(../images/firetruck.png)";
+            document.getElementById("pos-1").style.backgroundRepeat = "no-repeat";
+            document.getElementById("pos-1").style.backgroundPosition = "center center";
             if(change === '1'){
                 document.getElementById("plant-s1").style.border = "5px dashed blue";
                 document.getElementById("plant-s2").style.border = "5px dashed blue";
@@ -94,7 +98,9 @@ $(function () {
         }
 
         if (cur_per === '2') {
-            document.getElementById("pos-2").style.backgroundColor = "yellow";
+            document.getElementById("pos-2").style.backgroundImage = "url(../images/firetruck.png)";
+            document.getElementById("pos-2").style.backgroundRepeat = "no-repeat";
+            document.getElementById("pos-2").style.backgroundPosition = "center center";
             if (change === '1') {
                 document.getElementById("plant-s3").style.border = "5px dashed blue";
                 document.getElementById("plant-s4").style.border = "5px dashed blue";
@@ -109,7 +115,9 @@ $(function () {
         }
 
         if (cur_per === '3') {
-            document.getElementById("pos-3").style.backgroundColor = "yellow";
+            document.getElementById("pos-3").style.backgroundImage = "url(../images/firetruck.png)";
+            document.getElementById("pos-3").style.backgroundRepeat = "no-repeat";
+            document.getElementById("pos-3").style.backgroundPosition = "center center";
             if (change === '1') {
                 document.getElementById("plant-s5").style.border = "5px dashed blue";
                 document.getElementById("plant-s6").style.border = "5px dashed blue";
