@@ -25,6 +25,7 @@ struct ServerData {
 const char GET_SERVER_DATA = 1;
 const char GET_SERVER_DATA_RESULT = 2;
 const char UPDATE_PROJECT_DATA = 3;
+const char UPDATE_CURRENT_STATUS = 4;
 
 // wifi configuration
 const char SSID[] = "opera";
@@ -239,6 +240,11 @@ void loop() {
           expected_data_size = sizeof(ServerData);
           cur_buffer_length = 0;
           break;
+        case UPDATE_CURRENT_STATUS:
+          expected_data_size = sizeof(ProjectData);
+          cur_buffer_length = 0;
+          break;
+        case GET_SERVER_DATA:
       }
     } else if (cur_buffer_length < expected_data_size) {
       buffer[cur_buffer_length++] = ch;
@@ -260,6 +266,12 @@ void loop() {
               POST(set_builder("palmmy-lux", project_data->lux).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-humit", project_data->humit).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-temperature", project_data->temperature).c_str(), update_data_to_server_callback);
+            }
+            break;
+          case UPDATE_PROJECT_DATA: {
+              ProjectData *project_data = (ProjectData*)buffer;
+              POST(set_builder("palmmy-cur_pos", project_data->cur_pos).c_str(), update_data_to_server_callback);
+              POST(set_builder("palmmy-watering", project_data->watering).c_str(), update_data_to_server_callback);
             }
             break;
           case GET_SERVER_DATA:
