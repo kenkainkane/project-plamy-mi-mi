@@ -84,6 +84,7 @@ $(function () {
             document.getElementById("pos-1").style.backgroundImage = "url(../images/firetruck.png)";
             document.getElementById("pos-1").style.backgroundRepeat = "no-repeat";
             document.getElementById("pos-1").style.backgroundPosition = "center center";
+            document.getElementById("pos-0").style.backgroundImage = "";
             if(change === '1'){
                 document.getElementById("plant-s1").style.border = "5px dashed blue";
                 document.getElementById("plant-s2").style.border = "5px dashed blue";
