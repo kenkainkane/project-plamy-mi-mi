@@ -61,9 +61,18 @@ let dusk = '0'
 
 $(function () {
     setInterval(function () {
+        //get time
+        let date = new Date()
+        date_hr = date.getHours()
+        date_min = date.getMinutes()
 
         //get data from hardware
         $(get_value)
+
+        if(date_hr == hr && date_min == min){
+            alert('time')
+        }
+
         if(cur_per === '0'){
             document.getElementById("pos-0").style.backgroundColor = "yellow";
         }else{
@@ -114,6 +123,8 @@ $(function () {
             document.getElementById("plant-s6").style.border = "5px solid black";
         }
 
+
+
         if (change === '1') {
             change = '0'
         } else {
@@ -129,81 +140,90 @@ $(function () {
     $('#hr0').click(function () {
         console.log('hr0')
       })
+
     //submit[now]
+    $('#submit-n').on('click', function () {
+        $(select_plantn('','','1'))
+    })
+    //submit[time]
     $('#submit-t').on('click', function () {
-       console.log(`${hr} : ${min}`)
+        $(select_plantt('','','1'))
+    })
+    //submit[day]
+    $('#submit-d').on('click', function () {
+        $(select_plantd('','','1'))
     })
 
      $(`#plant-n1`).click(function () {
-        $(select_plantn('1','plant-n1'))
+        $(select_plantn('1','plant-n1','0'))
      })
 
      $(`#plant-n2`).click(function () {
-        $(select_plantn('2','plant-n2'))
+        $(select_plantn('2','plant-n2','0'))
      })
 
      $(`#plant-n3`).click(function () {
-        $(select_plantn('3','plant-n3'))
+        $(select_plantn('3','plant-n3','0'))
      })
 
      $(`#plant-n4`).click(function () {
-        $(select_plantn('4','plant-n4'))
+        $(select_plantn('4','plant-n4','0'))
      })
 
      $(`#plant-n5`).click(function () {
-        $(select_plantn('5','plant-n5'))
+        $(select_plantn('5','plant-n5','0'))
      })
 
      $(`#plant-n6`).click(function () {
-        $(select_plantn('6','plant-n6'))
+        $(select_plantn('6','plant-n6','0'))
      })
 
      $(`#plant-d1`).click(function () {
-        $(select_plantn('1','plant-d1'))
+        $(select_plantn('1','plant-d1','0'))
      })
 
      $(`#plant-d2`).click(function () {
-        $(select_plantn('2','plant-d2'))
+        $(select_plantn('2','plant-d2','0'))
      })
 
      $(`#plant-d3`).click(function () {
-        $(select_plantn('3','plant-d3'))
+        $(select_plantn('3','plant-d3','0'))
      })
 
      $(`#plant-d4`).click(function () {
-        $(select_plantn('4','plant-d4'))
+        $(select_plantn('4','plant-d4','0'))
      })
 
      $(`#plant-d5`).click(function () {
-        $(select_plantn('5','plant-d5'))
+        $(select_plantn('5','plant-d5','0'))
      })
 
      $(`#plant-d6`).click(function () {
-        $(select_plantn('6','plant-d6'))
+        $(select_plantn('6','plant-d6','0'))
      })
 
      $(`#plant-t1`).click(function () {
-        $(select_plantn('1','plant-t1'))
+        $(select_plantn('1','plant-t1','0'))
      })
 
      $(`#plant-t2`).click(function () {
-        $(select_plantn('2','plant-t2'))
+        $(select_plantn('2','plant-t2','0'))
      })
 
      $(`#plant-t3`).click(function () {
-        $(select_plantn('3','plant-t3'))
+        $(select_plantn('3','plant-t3','0'))
      })
 
      $(`#plant-t4`).click(function () {
-        $(select_plantn('4','plant-t4'))
+        $(select_plantn('4','plant-t4','0'))
      })
 
      $(`#plant-t5`).click(function () {
-        $(select_plantn('5','plant-t5'))
+        $(select_plantn('5','plant-t5','0'))
      })
 
      $(`#plant-t6`).click(function () {
-        $(select_plantn('6','plant-t6'))
+        $(select_plantn('6','plant-t6','0'))
      })
 
      $(`#hr0`).click(function () {
@@ -327,6 +347,16 @@ $(function () {
         min = '50'
         document.getElementById("minute-select").innerHTML = min;
      })
+
+     $('#dusk').click(function(){
+         dusk = '1'
+         dawn = '0'
+     })
+
+     $('#dawn').click(function(){
+         dawn = '1'
+         dusk = '0'
+     })
 })
 
 let GET = (u) => {
@@ -413,7 +443,7 @@ let move = (position) => {
     }
 }
 
-let select_plantn = (plant,select) => {
+let select_plantn = (plant,select,del) => {
         if(plant == '1'){
             if(check_p1 == '0'){
                 document.getElementById(`${select}`).style.border = "5px dashed red";
@@ -462,10 +492,24 @@ let select_plantn = (plant,select) => {
                 document.getElementById(`${select}`).style.border = "5px solid black";
                 check_p6 = '0'
             }
+        }else if(del === '1'){
+            check_p1='0'
+            check_p2='0'
+            check_p3='0'
+            check_p4='0'
+            check_p5='0'
+            check_p6='0'
+            document.getElementById(`plant-n1`).style.border = "5px solid black";
+            document.getElementById(`plant-n2`).style.border = "5px solid black";
+            document.getElementById(`plant-n3`).style.border = "5px solid black";
+            document.getElementById(`plant-n4`).style.border = "5px solid black";
+            document.getElementById(`plant-n5`).style.border = "5px solid black";
+            document.getElementById(`plant-n6`).style.border = "5px solid black";
+            
         }
 }
 
-let select_plantt = (plant, select) => {
+let select_plantt = (plant, select,del) => {
     $(`#${select}`).click(function () {
         if (plant == '1') {
             if (check_t1 == '0') {
@@ -515,6 +559,20 @@ let select_plantt = (plant, select) => {
                 document.getElementById(`${select}`).style.border = "5px solid black";
                 check_t6 = '0'
             }
+        }else if(del === '1'){
+            check_t1='0'
+            check_t2='0'
+            check_t3='0'
+            check_t4='0'
+            check_t5='0'
+            check_t6='0'
+            document.getElementById(`plant-t1`).style.border = "5px solid black";
+            document.getElementById(`plant-t2`).style.border = "5px solid black";
+            document.getElementById(`plant-t3`).style.border = "5px solid black";
+            document.getElementById(`plant-t4`).style.border = "5px solid black";
+            document.getElementById(`plant-t5`).style.border = "5px solid black";
+            document.getElementById(`plant-t6`).style.border = "5px solid black";
+            
         }
     })
 }
