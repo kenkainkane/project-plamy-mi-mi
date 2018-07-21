@@ -5,7 +5,7 @@
 
 SoftwareSerial se_read(D5, D6); // write only
 SoftwareSerial se_write(D0, D1); // read only
-String const url = "http://ecourse.cpe.ku.ac.th:1515/api/";
+String const url = "http://ecourse.cpe.ku.ac.th/exceed/api/";
 
 struct ProjectData {
   int32_t cur_pos;  //0, 1, 2
@@ -27,8 +27,10 @@ const char GET_SERVER_DATA_RESULT = 2;
 const char UPDATE_PROJECT_DATA = 3;
 
 // wifi configuration
-const char SSID[] = "EXCEED_RIGHT_2_5GHz";
-const char PASSWORD[] = "1234567890";
+const char SSID[] = "opera";
+const char PASSWORD[] = "opera1234";
+//const char SSID[] = "EXCEED_RIGHT_2_2.4GHz";
+//const char PASSWORD[] = "1234567890";
 
 // for nodemcu communication
 uint32_t last_sent_time = 0;
@@ -54,6 +56,7 @@ void wifi_initialization() {
 
   WiFi.begin(SSID, PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
+    Serial.println("try to connect wifi.");
     yield();
     delay(10);
   }
@@ -62,7 +65,7 @@ void wifi_initialization() {
 }
 
 void serial_initialization() {
-  Serial.begin(115200);
+  //Serial.begin(115200);
   se_read.begin(38400);
   se_write.begin(38400);
 
@@ -163,6 +166,7 @@ void get_request_raw_callback(String const &str) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
+  Serial.begin(115200);
   serial_initialization();
   wifi_initialization();
 
@@ -185,13 +189,14 @@ void loop() {
     //GET("http://ku-exceed-backend.appspot.com/api/exceed-temperature/view/", get_request,server_data.temp); 
     //Serial.print("temp : ");
     //Serial.println(server_data.temp);
-    GET(get_builder("palmmy-goto_pos").c_str(), get_request,server_data.light_sw); 
+    Serial.println("Start");
+    GET(get_builder("palmmy-goto_pos").c_str(), get_request,server_data.goto_pos); 
     Serial.print("goto_pos: ");
     Serial.println(server_data.goto_pos);
-    GET(get_builder("palmmy-watering").c_str(), get_request,server_data.air_sw); 
+    GET(get_builder("palmmy-watering").c_str(), get_request,server_data.watering); 
     Serial.print("watering: ");
     Serial.println(server_data.watering);
-    GET(get_builder("palmmy-e_stop").c_str(), get_request,server_data.door); 
+    GET(get_builder("palmmy-e_stop").c_str(), get_request,server_data.e_stop); 
     Serial.print("e_stop : ");
     Serial.println(server_data.e_stop);
     
@@ -204,8 +209,18 @@ void loop() {
     POST(set_builder("palmmy", project_data.lux).c_str(), update_data_to_server_callback);
     POST(set_builder("palmmy", project_data.humit).c_str(), update_data_to_server_callback);
     POST(set_builder("palmmy", project_data.temperature).c_str(), update_data_to_server_callback);
-    */        
-    
+    */     
+    /*   
+    //=============================
+    POST(set_builder("palmmy-cur_pos", project_data.cur_pos).c_str(), update_data_to_server_callback);
+    POST(set_builder("palmmy-watering", project_data.watering).c_str(), update_data_to_server_callback);
+    POST(set_builder("palmmy-readysts", project_data.readysts).c_str(), update_data_to_server_callback);
+    POST(set_builder("palmmy-lux", project_data.lux).c_str(), update_data_to_server_callback);
+    POST(set_builder("palmmy-humit", project_data.humit).c_str(), update_data_to_server_callback);
+    POST(set_builder("palmmy-temperature", project_data.temperature).c_str(), update_data_to_server_callback);
+            
+    //============================
+    */
     last_sent_time = cur_time;
   }
 
