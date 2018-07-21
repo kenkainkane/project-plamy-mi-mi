@@ -44,6 +44,10 @@ let check_t3 = '0'
 let check_t4 = '0'
 let check_t5 = '0'
 let check_t6 = '0'
+let hr = '0'
+let date_hr = '0'
+let min = '0'
+let date_min = '0'
 
 //date
 let check_d1 = '0'
@@ -52,11 +56,9 @@ let check_d3 = '0'
 let check_d4 = '0'
 let check_d5 = '0'
 let check_d6 = '0'
+let dawn = '0'
+let dusk = '0'
 
-let hr = '0'
-let date_hr = '0'
-let min = '0'
-let date_min = '0'
 $(function () {
     setInterval(function () {
 

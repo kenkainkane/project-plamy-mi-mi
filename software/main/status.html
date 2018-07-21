@@ -27,13 +27,13 @@
             </div>
             <nav id="fh5co-main-nav" role="navigation">
                 <ul>
-                    <li><a class="active" href="status.html">Status</a></li>
-                    <li><a href="water.html">Let's water !!</a></li>
+                    <li><a class="active" href="status.html" id="status-status">Status</a></li>
+                    <li><a href="water.html" id="water-status">Let's water !!</a></li>
                 </ul>
             </nav>
         </div>
         <div style="padding-top: 5em"></div>
-        <div class="bg">
+        <div class="bg" id="status-start">
             <div class="row" style="padding-top: 5em; padding-left: 5em; padding-right: 5em">
                 <div class="col-3">
                     <div class="blank">
@@ -116,6 +116,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
         crossorigin="anonymous"></script>
     <script src="./app.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.scrollTo(0,300);
+        });
+    </script>
 </body>
 
 </html>
