@@ -985,3 +985,10 @@ input[type="text"] {
     background-color: rgb(0,125,255);
     margin-top: -1em;
 }
+
+.blackline {
+    background-color: white;
+    height: 5px;
+    padding-left: 5em;
+    padding-right: 5em;
+}
