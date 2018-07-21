@@ -70,7 +70,7 @@ $(function () {
         $(get_value)
 
         if(date_hr == hr && date_min == min){
-            alert('time')
+            $(set(moving))
         }
 
         if(cur_per === '0'){
@@ -123,7 +123,7 @@ $(function () {
             document.getElementById("plant-s6").style.border = "5px solid black";
         }
 
-
+        
 
         if (change === '1') {
             change = '0'
@@ -429,12 +429,14 @@ let move = (position) => {
     while (cur_per <= position) {
         $(get_value)
         if (moving === '0' && cur_per !== '0' && done === '0') {
-            $(set('time-watering', ''))
+            // $(set('time-watering', ''))
+            
             done = '1'
         }
         else if (watering !== last_data && last_data !== 0) {
             let next_position = $(next_pos(cur_per))
-            $(set('move', next_position))
+            cur_per =next_position
+            // $(set('move', next_position))
         }
         else if (moving === '1') {
             done = '0'
@@ -505,12 +507,10 @@ let select_plantn = (plant,select,del) => {
             document.getElementById(`plant-n4`).style.border = "5px solid black";
             document.getElementById(`plant-n5`).style.border = "5px solid black";
             document.getElementById(`plant-n6`).style.border = "5px solid black";
-            
         }
 }
 
 let select_plantt = (plant, select,del) => {
-    $(`#${select}`).click(function () {
         if (plant == '1') {
             if (check_t1 == '0') {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
@@ -574,11 +574,9 @@ let select_plantt = (plant, select,del) => {
             document.getElementById(`plant-t6`).style.border = "5px solid black";
             
         }
-    })
 }
 
-let select_plantd = (plant, select) => {
-    $(`#${select}`).click(function () {
+let select_plantd = (plant, select,del) => {
         if (plant == '1') {
             if (check_d1 == '0') {
                 document.getElementById(`${select}`).style.border = "5px dashed red";
@@ -627,6 +625,19 @@ let select_plantd = (plant, select) => {
                 document.getElementById(`${select}`).style.border = "5px dashed black";
                 check_d6 = '0'
             }
+        }else if(del === '1'){
+            check_d1='0'
+            check_d2='0'
+            check_d3='0'
+            check_d4='0'
+            check_d5='0'
+            check_d6='0'
+            document.getElementById(`plant-d1`).style.border = "5px solid black";
+            document.getElementById(`plant-d2`).style.border = "5px solid black";
+            document.getElementById(`plant-d3`).style.border = "5px solid black";
+            document.getElementById(`plant-d4`).style.border = "5px solid black";
+            document.getElementById(`plant-d5`).style.border = "5px solid black";
+            document.getElementById(`plant-d6`).style.border = "5px solid black";
+            
         }
-    })
 }
