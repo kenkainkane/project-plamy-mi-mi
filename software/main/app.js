@@ -24,9 +24,9 @@ let time_p4 = '0'
 let time_p5 = '0'
 let time_p6 = '0'
 let pos_0 = '0'
-let pos_1 = '0'
-let pos_2 = '0'
-let pos_3 = '0'
+let pos_1 = '1'
+let pos_2 = '1'
+let pos_3 = '1'
 let emergency_button = '0'
 
 //now
@@ -68,7 +68,7 @@ $(function () {
 
         //get data from hardware
         $(get_value)
-
+        cur_per = parseInt(cur_per)
         if(date_hr == hr && date_min == min){
             $(set(moving))
         }
@@ -141,9 +141,9 @@ $(function () {
     }, 1000)
     
     //emergency butt
-    $('#emergency-button').on('click', function () {
-       $(set('emer','1'))
-    })
+    // $('#emergency-button').on('click', function () {
+    //    $(set('emer','1'))
+    // })
 
     $('#hr0').click(function () {
         console.log('hr0')
@@ -152,6 +152,7 @@ $(function () {
     //submit[now]
     $('#submit-n').on('click', function () {
         $(select_plantn('','','1'))
+        $(move('3'))
     })
     //submit[time]
     $('#submit-t').on('click', function () {
@@ -433,24 +434,30 @@ let next_pos = (now) => {
 }
 
 let move = (position) => {
-    let last_data = 0
-    while (cur_per <= position) {
-        $(get_value)
-        if (moving === '0' && cur_per !== '0' && done === '0') {
-            // $(set('time-watering', ''))
-            
-            done = '1'
-        }
-        else if (watering !== last_data && last_data !== 0) {
-            let next_position = $(next_pos(cur_per))
-            cur_per =next_position
-            // $(set('move', next_position))
-        }
-        else if (moving === '1') {
-            done = '0'
-        }
-        last_data = watering
-    }
+    // let last_data = 0
+    // while (cur_per <= position) {
+    //     $(get_value)
+    //     if (moving === '0' && cur_per !== '0' && done === '0') {
+    //         // $(set('time-watering', ''))
+
+    //         done = '1'
+    //     }
+    //     else if (watering !== last_data && last_data !== 0) {
+    //         let next_position = $(next_pos(cur_per))
+    //         cur_per =next_position
+    //         // $(set('move', next_position))
+    //     }
+    //     else if (moving === '1') {
+    //         done = '0'
+    //     }
+    //     last_data = watering
+    // }
+    let new_watering = '0'
+    let word_done = '0'
+    let loop = setInterval(function(){
+        let next_position = $(next_pos(cur_per))
+                cur_per =next_position
+    },10000)
 }
 
 let select_plantn = (plant,select,del) => {
