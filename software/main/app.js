@@ -136,6 +136,7 @@ $(function () {
 
      $(`#plant-n1`).click(function () {
         $(select_plantn('1','plant-n1'))
+        
      })
 
      $(`#plant-n2`).click(function () {
