@@ -12,6 +12,9 @@
 #define MOTERAA 9
 #define MOTERAB 7
 
+//Config
+#define BASE_CHECK 10 
+
 DHT dht(DHTPIN,DHTTYPE);
 int buz_sta = 1;
 long micro(long microse)
@@ -69,6 +72,8 @@ long dis(){
 void walk(int cur_pos,int goto_pos){
   while(cur_pos!=goto_pos)
   {
+    project_data.cur_pos = cur_pos;
+
     /*Serial.print("cur_pos");
     Serial.println(cur_pos);
     Serial.print("target_pos");
@@ -79,14 +84,14 @@ void walk(int cur_pos,int goto_pos){
       digitalWrite(MOTERBB,LOW);
       analogWrite(MOTERAA,100);
       digitalWrite(MOTERAB,LOW);
-      while(dis()<10){
-        Serial.print("on base");
+      while(dis()<BASE_CHECK){
+        Serial.print("on base: ");
         Serial.println(dis());
       }
       //Serial.print(dis());
-      while(dis()>10)
+      while(dis()>BASE_CHECK)
       {
-        Serial.print("on the way");
+        Serial.print("on the way: ");
         Serial.println(dis());
       }
       delay(1000);
@@ -101,10 +106,10 @@ void walk(int cur_pos,int goto_pos){
       digitalWrite(MOTERBB,100);
       analogWrite(MOTERAA,LOW);
       digitalWrite(MOTERAB,100);
-      while(dis()<10){
+      while(dis()<BASE_CHECK){
         delay(200);
       }
-      while(dis()>10)
+      while(dis()>BASE_CHECK)
       {
         delay(200);
       }
@@ -116,7 +121,7 @@ void walk(int cur_pos,int goto_pos){
       cur_pos--;
     } 
   }
-    Serial.println("out!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
+  Serial.println("Walk done.");
 }
 
 //================EndMethod
