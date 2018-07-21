@@ -12,6 +12,9 @@
 #define MOTERAA 9
 #define MOTERAB 7
 
+//Config
+#define BASE_CHECK 10 
+
 DHT dht(DHTPIN,DHTTYPE);
 int buz_sta = 1;
 long micro(long microse)
@@ -56,67 +59,69 @@ void send_to_nodemcu(char code, void *data, char data_size) {
 }
 //=================Method
 long dis(){
-  
   delay(200);
   digitalWrite(TRIG,LOW);
   delayMicroseconds(2);
   digitalWrite(TRIG,HIGH);
   delayMicroseconds(5);
   digitalWrite(TRIG,LOW);
-  return micro(pulseIn(ECHO,HIGH));
+  long tmp = micro(pulseIn(ECHO,HIGH));
+  Serial.println(tmp);
+  return tmp;
 }
 void walk(int cur_pos,int goto_pos){
   while(cur_pos!=goto_pos)
   {
+    project_data.cur_pos = cur_pos;
+
     /*Serial.print("cur_pos");
     Serial.println(cur_pos);
     Serial.print("target_pos");
     Serial.println(goto_pos);*/
     if(cur_pos<goto_pos){
       //Serial.println("if 1");
-      analogWrite(MOTERBA,100);
-      analogWrite(MOTERBB,LOW);
+      analogWrite(MOTERBA,47);
+      digitalWrite(MOTERBB,LOW);
       analogWrite(MOTERAA,100);
-      analogWrite(MOTERAB,LOW);
-      while(dis()<10){
-        Serial.print("on base");
+      digitalWrite(MOTERAB,LOW);
+      while(dis()<BASE_CHECK){
+        Serial.print("on base: ");
         Serial.println(dis());
       }
       //Serial.print(dis());
-      while(dis()>10)
+      while(dis()>BASE_CHECK)
       {
-        Serial.print("on the way");
+        Serial.print("on the way: ");
         Serial.println(dis());
       }
       delay(1000);
       analogWrite(MOTERBA,LOW);
-      analogWrite(MOTERBB,LOW);
+      digitalWrite(MOTERBB,LOW);
       analogWrite(MOTERAA,LOW);
-      analogWrite(MOTERAB,LOW);
+      digitalWrite(MOTERAB,LOW);
       cur_pos++;
     }
     else{
       analogWrite(MOTERBA,LOW);
-      analogWrite(MOTERBB,100);
+      digitalWrite(MOTERBB,100);
       analogWrite(MOTERAA,LOW);
-      analogWrite(MOTERAB,100);
-      while(dis()<10){
+      digitalWrite(MOTERAB,100);
+      while(dis()<BASE_CHECK){
         delay(200);
       }
-      while(dis()>10)
+      while(dis()>BASE_CHECK)
       {
         delay(200);
       }
       delay(1000);
       analogWrite(MOTERBA,LOW);
-      analogWrite(MOTERBB,LOW);
+      digitalWrite(MOTERBB,LOW);
       analogWrite(MOTERAA,LOW);
-      analogWrite(MOTERAB,LOW);
+      digitalWrite(MOTERAB,LOW);
       cur_pos--;
-      }
-      
-    }
-    Serial.println("out!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
+    } 
+  }
+  Serial.println("Walk done.");
 }
 
 //================EndMethod
@@ -127,6 +132,7 @@ void setup() {
   Serial.begin(115200);
   se_read.begin(38400);
   se_write.begin(38400);
+  //walk(0,1);
   while (!se_read.isListening()) {
     se_read.listen();
   }
