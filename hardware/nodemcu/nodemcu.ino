@@ -2,7 +2,8 @@
 #include <ESP8266WiFi.h>
 #include <EspSoftwareSerial.h>
 #include <math.h>
-
+#define LEDW1 D2
+#define LEDW2 D3
 SoftwareSerial se_read(D5, D6); // write only
 SoftwareSerial se_write(D0, D1); // read only
 String const url = "http://ecourse.cpe.ku.ac.th/exceed/api/";
@@ -169,7 +170,8 @@ void setup() {
   Serial.begin(115200);
   serial_initialization();
   wifi_initialization();
-
+  pinMode(LEDW1,HIGH);
+  pinMode(LEDW2,HIGH);
   Serial.print("sizeof(ServerData): ");
   Serial.println((int)sizeof(ServerData));
   Serial.print("ESP READY!");
@@ -196,6 +198,11 @@ void loop() {
     GET(get_builder("palmmy-watering").c_str(), get_request,server_data.watering); 
     Serial.print("watering: ");
     Serial.println(server_data.watering);
+    if(server_data.watering == -1){
+      digitalWrite(LEDW1,HIGH);
+      digitalWrite(LEDW1,HIGH);}
+     else{}
+    
     GET(get_builder("palmmy-e_stop").c_str(), get_request,server_data.e_stop); 
     Serial.print("e_stop : ");
     Serial.println(server_data.e_stop);
