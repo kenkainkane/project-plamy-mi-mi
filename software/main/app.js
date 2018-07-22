@@ -25,9 +25,9 @@ let time_p4 = '0'
 let time_p5 = '0'
 let time_p6 = '0'
 let pos_0 = '0'
-let pos_1 = '0'
-let pos_2 = '0'
-let pos_3 = '0'
+let pos_1 = '1'
+let pos_2 = '1'
+let pos_3 = '1'
 let emergency_button = '0'
 
 //now
@@ -64,6 +64,7 @@ const check_lux = '0'
 $(function () {
     $(set_position())
     setInterval(function () {
+        $(move('3'))
         //get time
         let date = new Date()
         date_hr = date.getHours()
@@ -77,11 +78,12 @@ $(function () {
         $(get_value)
         snumber = number.toString()
         cur_per = snumber
+        console.log(`position: ${cur_per}`)
         if(date_hr == hr && date_min == min){
             $(move())
         }
 
-        if(cur_per === '0'){
+        if(cur_per == '0'){
             document.getElementById("pos-0").style.backgroundImage = "url(../images/firetruck.png)";
             document.getElementById("pos-0").style.backgroundRepeat = "no-repeat";
             document.getElementById("pos-0").style.backgroundPosition = "center center";
@@ -89,7 +91,7 @@ $(function () {
             document.getElementById("pos-0").style.backgroundImage = "";
             document.getElementById("pos-0").style.backgroundColor = "rgba(66, 66, 66, 0.70)";
         }
-        if(cur_per === '1'){
+        if(cur_per == '1'){
             document.getElementById("pos-1").style.backgroundImage = "url(../images/firetruck.png)";
             document.getElementById("pos-1").style.backgroundRepeat = "no-repeat";
             document.getElementById("pos-1").style.backgroundPosition = "center center";
@@ -108,7 +110,7 @@ $(function () {
             document.getElementById("plant-s2").style.border = "5px solid black";
         }
 
-        if (cur_per === '2') {
+        if (cur_per == '2') {
             document.getElementById("pos-2").style.backgroundImage = "url(../images/firetruck.png)";
             document.getElementById("pos-2").style.backgroundRepeat = "no-repeat";
             document.getElementById("pos-2").style.backgroundPosition = "center center";
@@ -126,7 +128,7 @@ $(function () {
             document.getElementById("plant-s4").style.border = "5px solid black";
         }
 
-        if (cur_per === '3') {
+        if (cur_per == '3') {
             document.getElementById("pos-3").style.backgroundImage = "url(../images/firetruck.png)";
             document.getElementById("pos-3").style.backgroundRepeat = "no-repeat";
             document.getElementById("pos-3").style.backgroundPosition = "center center";
@@ -146,7 +148,11 @@ $(function () {
 
         if(dawn === '1'){
             if(luxs > check_lux){
-                $(move())
+                $(move('3'))
+            }
+        }else {
+            if(luxs < check_lux){
+                $(move('3'))
             }
         }
 
@@ -402,21 +408,27 @@ let GET = (u) => {
 let get_value = () => {
     let t = GET('pos_1').then((res) => {
         pos_1 = res
+        console.log(`pos1: ${pos_1}`)
     })
     let tt = GET('pos_2').then((res) => {
         pos_2 = res
+        console.log(`pos2: ${pos_2}`)
     })
     let ttt = GET('pos_3').then((res) => {
         pos_3 = res
+        console.log(`pos3: ${pos_3}`)
     })
     let test = GET('cur_pos').then((res) => {
         cur_pos = res
+        console.log(`position: ${cur_pos}`)
     })
     let test2 = GET('watering').then((res) => {
         watering = res
+        console.log(`watering : ${watering}`)
     })
     let test3 = GET('readysts').then((res) => {
         ready = res
+        console.log(`ready: ${ready}`)
     })
     let test4 = GET('lux').then((res) => {
         lux = res
@@ -447,24 +459,30 @@ let set = (u, send) => {
 let next_pos = (now) => {
     if ( now == 0 ){
         if( pos_1 == 1){
+            pos_1 = '0'
             return '1'
         }else if ( pos_2 ==1 ){
+            pos_2 = '0'
             return '2'
         }else if ( pos_3 == 1){
+            pos_3 = '0'
             return '3'
         }else {
             return '0'
         }
     }else if (now == 1) {
         if (pos_2 == 1) {
+            pos_2 = '0'
             return '2'
         } else if (pos_3 == 1) {
+            pos_3 ='0'
             return '3'
         } else {
             return '0'
         }
     } else if (now == 2) {
         if (pos_3 == 1) {
+            pos_3 = '0'
             return '3'
         } else {
             return '0'
@@ -475,21 +493,15 @@ let next_pos = (now) => {
 }
 
 let move = (position) => {
-    let last_data = '0'
-    let work_done = '0'
-    // while (cur_per <= position) {
     let loop = setInterval(function() {
-        console.log('loop')
         $(get_value)
         if (watering === '0' && cur_per !== '0' && done === '0') {
-            // $(set('watering', '60'))
-
+            $(set('watering', '30'))
             done = '1'
         }
         else if ((watering !== last_data && last_data !== '0')|| cur_per === '0') {
             let next_position = $(next_pos(cur_per))
-            // $(set('move', next_position))
-            // cur_per =next_position
+            $(set('goto_pos', next_position))
         }
         else if (moving === '1') {
             done = '0'
