@@ -3,7 +3,9 @@
 #include <EspSoftwareSerial.h>
 #include <math.h>
 #define LEDW1 D2
-#define LEDW2 D3
+#define LEDM1 D4
+
+
 SoftwareSerial se_read(D5, D6); // write only
 SoftwareSerial se_write(D0, D1); // read only
 String const url = "http://ecourse.cpe.ku.ac.th/exceed/api/";
@@ -29,10 +31,10 @@ const char UPDATE_PROJECT_DATA = 3;
 const char UPDATE_CURRENT_STATUS = 4;
 
 // wifi configuration
-const char SSID[] = "opera";
-const char PASSWORD[] = "opera1234";
-//const char SSID[] = "EXCEED_RIGHT_2_2.4GHz";
-//const char PASSWORD[] = "1234567890";
+//const char SSID[] = "opera";
+//const char PASSWORD[] = "opera1234";
+const char SSID[] = "EXCEED_FRONT_LEFT_2.4GHz";
+const char PASSWORD[] = "1234567890";
 
 // for nodemcu communication
 uint32_t last_sent_time = 0;
@@ -146,6 +148,8 @@ bool POST(const char *url, void (*callback)(String const &str)) {
 int get_request_int(String const &str) {
   int32_t tmp = str.toInt();
   return tmp;
+
+  
 }
 
 float get_request_float(String const &str) {
@@ -171,8 +175,8 @@ void setup() {
   Serial.begin(115200);
   serial_initialization();
   wifi_initialization();
-  pinMode(LEDW1,HIGH);
-  pinMode(LEDW2,HIGH);
+  pinMode(LEDW1,OUTPUT);
+  pinMode(LEDM1,OUTPUT);
   Serial.print("sizeof(ServerData): ");
   Serial.println((int)sizeof(ServerData));
   Serial.print("ESP READY!");
@@ -199,11 +203,23 @@ void loop() {
     GET(get_builder("palmmy-watering").c_str(), get_request,server_data.watering); 
     Serial.print("watering: ");
     Serial.println(server_data.watering);
+
+    //Light of watering
     if(server_data.watering == -1){
       digitalWrite(LEDW1,HIGH);
-      digitalWrite(LEDW1,HIGH);}
-     else{}
-    
+      }
+     else{
+      digitalWrite(LEDW1,LOW);
+      }
+      
+     //Light of moving
+     if(project_data.readysts == 0){
+      digitalWrite(LEDM1,HIGH);
+     }
+     else{
+      digitalWrite(LEDM1,LOW);
+     }
+     
     GET(get_builder("palmmy-e_stop").c_str(), get_request,server_data.e_stop); 
     Serial.print("e_stop : ");
     Serial.println(server_data.e_stop);
@@ -251,7 +267,6 @@ void loop() {
           expected_data_size = sizeof(ProjectData);
           cur_buffer_length = 0;
           break;
-        case GET_SERVER_DATA:
       }
     } else if (cur_buffer_length < expected_data_size) {
       buffer[cur_buffer_length++] = ch;
@@ -269,13 +284,13 @@ void loop() {
               */
               POST(set_builder("palmmy-cur_pos", project_data->cur_pos).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-watering", project_data->watering).c_str(), update_data_to_server_callback);
-              POST(set_builder("palmmy-readysts", project_data->readysts).c_str(), update_data_to_server_callback);
+              //POST(set_builder("palmmy-readysts", project_data->readysts).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-lux", project_data->lux).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-humit", project_data->humit).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-temperature", project_data->temperature).c_str(), update_data_to_server_callback);
             }
             break;
-          case UPDATE_PROJECT_DATA: {
+          case UPDATE_CURRENT_STATUS: {
               ProjectData *project_data = (ProjectData*)buffer;
               POST(set_builder("palmmy-cur_pos", project_data->cur_pos).c_str(), update_data_to_server_callback);
               POST(set_builder("palmmy-watering", project_data->watering).c_str(), update_data_to_server_callback);

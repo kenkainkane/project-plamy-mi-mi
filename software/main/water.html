@@ -22,26 +22,22 @@
     <header>
         <div class="container text-center">
             <div class="fh5co-navbar-brand">
-                <a class="fh5co-logo" href="index.html">Palmy-AWM</a>
+                <a class="fh5co-logo" href="water.html">Palmy-AWM</a>
                 <p>Autonomous Watering Machine</p>
-            </div>
-            <nav id="fh5co-main-nav" role="navigation">
-                <ul>
-                    <li>
-                        <a href="status.html">Status</a>
-                    </li>
-                    <li>
-                        <a class="active" href="water.html">Let's water !!</a>
-                    </li>
-                </ul>
-            </nav>
+            
         </div>
         <div style="padding-top: 5em"></div>
         <div id="water-start">
             <div class="container">
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="pills-now-tab" data-toggle="pill" href="#pills-now" role="tab" aria-controls="pills-now" aria-selected="true">
+                        <a class="nav-link active" id="pills-status-tab" data-toggle="pill" href="#pills-status" role="tab" aria-controls="pills-status"
+                            aria-selected="true">
+                            <h2>Status</h2>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-now-tab" data-toggle="pill" href="#pills-now" role="tab" aria-controls="pills-now" aria-selected="false">
                             <h2>Now</h2>
                         </a>
                     </li>
@@ -58,7 +54,94 @@
                     </li>
                 </ul>
                 <div class="tab-content blue" id="pills-tabContent">
-                    <div class="tab-pane show active" id="pills-now" role="tabpanel" aria-labelledby="pills-now-tab">
+                        <div class="tab-pane show active" id="pills-status" role="tabpanel" aria-labelledby="pills-status-tab">
+                                <div class="row" style="padding-top:3em; padding-right:5em; padding-left:5em">
+                                    <div class="col-3">
+                                        <div class="blank">                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="block" id="plant-s1">
+                                            <div id="text-s1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="block" id="plant-s3">
+                                            <div id="text-s3"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="block" id="plant-s5">
+                                            <div id="text-s5"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-top:25px; padding-right:5em; padding-left:5em">
+                                    <div class="col-3">
+                                        <div class="pos" id="pos0"></div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="pos" id="pos1"></div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="pos" id="pos2"></div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="pos" id="pos3"></div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-top:25px; padding-right:5em; padding-left:5em; padding-bottom:3em">
+                                    <div class="col-3">
+                                            <div class="blank">
+                                                    <div class="alert alert-warning" role="alert">
+                                                        <div class="row">
+                                                            <div class="col-7">
+                                                                <h4>Brightness</h4>
+                                                            </div>
+                                                            <div class="col-5">
+                                                                <h4 style="text-align:center" id="bright"></h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="alert alert-danger" role="alert">
+                                                        <div class="row">
+                                                            <div class="col-7">
+                                                                <h4>Temperature</h4>
+                                                            </div>
+                                                            <div class="col-5">
+                                                                <h4 style="text-align:center" id="temp"></h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="alert alert-info" role="alert">
+                                                        <div class="row">
+                                                            <div class="col-7">
+                                                                <h4>Humidity</h4>
+                                                            </div>
+                                                            <div class="col-5">
+                                                                <h4 style="text-align:center" id="mois"></h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="block" id="plant-s2">
+                                            <div id="text-s2"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="block" id="plant-s4">
+                                            <div id="text-s4"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="block" id="plant-s6">
+                                            <div id="text-s6"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <div class="tab-pane" id="pills-now" role="tabpanel" aria-labelledby="pills-now-tab">
                         <div class="row" style="padding-top:3em; padding-right:5em; padding-left:5em">
                             <div class="col-3">
                                 <div class="blank">
@@ -66,13 +149,19 @@
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-n1"><div id="text-n1"></div></div>
+                                <div class="block" id="plant-n1">
+                                    <div id="text-n1"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-n3"><div id="text-n3"></div></div>
+                                <div class="block" id="plant-n3">
+                                    <div id="text-n3"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-n5"><div id="text-n5"></div></div>
+                                <div class="block" id="plant-n5">
+                                    <div id="text-n5"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="row" style="padding-top:25px; padding-right:5em; padding-left:5em">
@@ -94,13 +183,19 @@
                                 <div class="blank"></div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-n2"><div id="text-n2"></div></div>
+                                <div class="block" id="plant-n2">
+                                    <div id="text-n2"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-n4"><div id="text-n4"></div></div>
+                                <div class="block" id="plant-n4">
+                                    <div id="text-n4"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-n6"><div id="text-n6"></div></div>
+                                <div class="block" id="plant-n6">
+                                    <div id="text-n6"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -172,13 +267,19 @@
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-t1"><div id="text-t1"></div></div>
+                                <div class="block" id="plant-t1">
+                                    <div id="text-t1"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-t3"><div id="text-t3"></div></div>
+                                <div class="block" id="plant-t3">
+                                    <div id="text-t3"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-t5"><div id="text-t5"></div></div>
+                                <div class="block" id="plant-t5">
+                                    <div id="text-t5"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="row" style="padding-top:25px; padding-right:5em; padding-left:5em">
@@ -200,13 +301,19 @@
                                 <div class="blank"></div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-t2"><div id="text-t2"></div></div>
+                                <div class="block" id="plant-t2">
+                                    <div id="text-t2"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-t4"><div id="text-t4"></div></div>
+                                <div class="block" id="plant-t4">
+                                    <div id="text-t4"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-t6"><div id="text-t6"></div></div>
+                                <div class="block" id="plant-t6">
+                                    <div id="text-t6"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -235,13 +342,19 @@
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-d1"><div id="text-d1"></div></div>
+                                <div class="block" id="plant-d1">
+                                    <div id="text-d1"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-d3"><div id="text-d3"></div></div>
+                                <div class="block" id="plant-d3">
+                                    <div id="text-d3"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-d5"><div id="text-d5"></div></div>
+                                <div class="block" id="plant-d5">
+                                    <div id="text-d5"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="row" style="padding-top:25px; padding-right:5em; padding-left:5em">
@@ -264,13 +377,19 @@
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-d2"><div id="text-d2"></div></div>
+                                <div class="block" id="plant-d2">
+                                    <div id="text-d2"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-d4"><div id="text-d4"></div></div>
+                                <div class="block" id="plant-d4">
+                                    <div id="text-d4"></div>
+                                </div>
                             </div>
                             <div class="col-3">
-                                <div class="block" id="plant-d6"><div id="text-d6"></div></div>
+                                <div class="block" id="plant-d6">
+                                    <div id="text-d6"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
