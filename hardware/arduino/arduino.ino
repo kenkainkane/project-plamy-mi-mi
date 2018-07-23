@@ -4,6 +4,7 @@
 #define TRIG 2
 #define ECHO 14
 #define SER 3
+#define LED 5
 #define LDR 15
 #define DHTPIN 8
 #define DHTTYPE DHT11 
@@ -66,25 +67,36 @@ long dis(){
   delayMicroseconds(5);
   digitalWrite(TRIG,LOW);
   long tmp = micro(pulseIn(ECHO,HIGH));
-  Serial.println(tmp);
+  //Serial.println(tmp);
+  if(tmp>=100)
+  {
+    delay(1000);
+    digitalWrite(TRIG,LOW);
+    delayMicroseconds(2);
+    digitalWrite(TRIG,HIGH);
+    delayMicroseconds(5);
+    digitalWrite(TRIG,LOW);
+    tmp = micro(pulseIn(ECHO,HIGH));
+  }
   return tmp;
+  //return micro(pulseIn(ECHO,HIGH));
 }
 void walk(int cur_pos,int goto_pos){
   while(cur_pos!=goto_pos)
   {
     project_data.cur_pos = cur_pos;
-    send_to_nodemcu(UPDATE_CURRENT_POSSITION, &project_data, sizeof(ProjectData));
-    /*Serial.print("cur_pos");
+    send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
+    Serial.print("cur_pos");
     Serial.println(cur_pos);
     Serial.print("target_pos");
-    Serial.println(goto_pos);*/
+    Serial.println(goto_pos);
     if(cur_pos<goto_pos){
       //Serial.println("if 1");
-      analogWrite(MOTERBA,47);
+      /*analogWrite(MOTERBA,47);
       digitalWrite(MOTERBB,LOW);
       analogWrite(MOTERAA,100);
-      digitalWrite(MOTERAB,LOW);
-      while(dis()<BASE_CHECK){
+      digitalWrite(MOTERAB,LOW);*/
+      /*while(dis()<BASE_CHECK){
         Serial.print("on base: ");
         Serial.println(dis());
       }
@@ -93,15 +105,16 @@ void walk(int cur_pos,int goto_pos){
       {
         Serial.print("on the way: ");
         Serial.println(dis());
-      }
-      delay(1000);
-      analogWrite(MOTERBA,LOW);
+      }*/
+      delay(5000);
+      analogWrite(MOTERBA,0);
       digitalWrite(MOTERBB,LOW);
-      analogWrite(MOTERAA,LOW);
+      analogWrite(MOTERAA,0);
       digitalWrite(MOTERAB,LOW);
       cur_pos++;
+      delay(5000);
     }
-    else{
+    /*else{
       analogWrite(MOTERBA,LOW);
       digitalWrite(MOTERBB,100);
       analogWrite(MOTERAA,LOW);
@@ -119,20 +132,30 @@ void walk(int cur_pos,int goto_pos){
       analogWrite(MOTERAA,LOW);
       digitalWrite(MOTERAB,LOW);
       cur_pos--;
-    } 
+    } */
   }
+  project_data.cur_pos = cur_pos;
+  send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
   Serial.println("Walk done.");
 }
 
 //================EndMethod
 void setup() {
   servod.attach(SER);
-  server.write(0);
+  servod.write(180);
   pinMode(LDR,INPUT);
+  pinMode(ECHO,INPUT);
+  pinMode(TRIG,OUTPUT);
+  pinMode(LED,INPUT);
+  //pinMode(MOTERBA, OUTPUT);
+  //pinMode(MOTERBB, OUTPUT);
+  //pinMode(MOTERAA, OUTPUT);
+  //pinMode(MOTERAB, OUTPUT);
   Serial.begin(115200);
   se_read.begin(38400);
   se_write.begin(38400);
   //walk(0,1);
+  
   while (!se_read.isListening()) {
     se_read.listen();
   }
@@ -150,24 +173,67 @@ char buffer[256];
 int8_t cur_buffer_length = -1;
 int32_t b = -1;
 void loop() {
-  delay(500);
+  delay(300);
+  //Serial.println("Start");
+  if(!digitalRead(LED) || analogRead(LDR)<=100){
+
+  analogWrite(MOTERBA,255);
+  digitalWrite(MOTERBB,LOW); 
+  analogWrite(MOTERAA,255);
+  digitalWrite(MOTERAB,LOW);
+  //delay(5000);
+  }
+  else{
+  analogWrite(MOTERBA,0);
+  digitalWrite(MOTERBB,LOW); 
+  analogWrite(MOTERAA,0);
+  digitalWrite(MOTERAB,LOW);
+  //delay(5000);
+  }
+  if(!digitalRead(LED))
+  {
+    servod.write(90);
+  }
+  else
+  {
+    servod.write(180);
+  }
+  Serial.println("stop2");
+  //Serial.println("Walk");
+  //walk(0,1);
   uint32_t cur_time = millis();
   
   if (cur_time - last_get_time > 1000) {//always update
     send_to_nodemcu(GET_SERVER_DATA, &server_data, sizeof(ServerData));
+    send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
 
     last_get_time = cur_time;
   }
-  if (cur_time - last_sent_time > 10000) {//always update
+  /*if (cur_time - last_sent_time2 > 3000) {//always update
     send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
 
-    last_sent_time = cur_time;
-  }
+    last_sent_time2 = cur_time;
+  }*/
   //READ SENSOR
+  /*while(!digitalRead(LED))
+  {
+    delay(100);
+    analogWrite(MOTERBA,LOW);
+    digitalWrite(MOTERBB,LOW);
+    analogWrite(MOTERAA,LOW);
+    digitalWrite(MOTERAB,LOW);
+  }*/
+  Serial.println(project_data.cur_pos);
+  Serial.println(server_data.goto_pos);
+  
   project_data.lux = analogRead(LDR);
   project_data.temperature = dht.readTemperature();
   project_data.humid = dht.readHumidity();
-  
+  /*while(true)
+  {
+    Serial.print("DIS -> ");
+    Serial.println(dis());
+  }*/
   while (se_read.available()) {
     char ch = se_read.read();
     Serial.print("RECV: ");
@@ -193,16 +259,18 @@ void loop() {
             Serial.println(data->watering);
             Serial.print("e_stop: ");
             Serial.println(data->e_stop);
-            if(data->goto_pos!=project_data.cur_pos){
-              walk(0,1);
-            }
-            if(data->watering!=0){
-              uint32_t water_temp = data->watering;
+            /*if(data->goto_pos!=project_data.cur_pos){
+              walk(project_data.cur_pos,data->goto_pos);
+            }*/
+            if(data->watering!=0 && data->watering!=-1){
+              int32_t water_temp = data->watering;
               project_data.watering = -1;
-              send_to_nodemcu(UPDATE_CURRENT_POSSITION, &project_data, sizeof(ProjectData));
+              send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
+              Serial.println("Start watering");
               servod.write(90);
               delay(water_temp*1000);
-              servod.write(0); 
+              servod.write(180); 
+              digitalWrite(LED, HIGH);
               /*uint32_t start_time_count = millis();
               while(millis()-start_time_count <= data->watering*1000)
               {
@@ -210,8 +278,10 @@ void loop() {
                 delay(500);
                 if()
               }*/
+              //digitalWrite(LED, LOW);
               project_data.watering = 0;
-              send_to_nodemcu(UPDATE_CURRENT_POSSITION, &project_data, sizeof(ProjectData));
+              //send_to_nodemcu(UPDATE_CURRENT_STATUS, &project_data, sizeof(ProjectData));
+              send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
             }
             
             //send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));

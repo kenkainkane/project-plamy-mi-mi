@@ -25,9 +25,9 @@ let time_p4 = '0'
 let time_p5 = '0'
 let time_p6 = '0'
 let pos_0 = '0'
-let pos_1 = '1'
-let pos_2 = '1'
-let pos_3 = '1'
+let pos_1 = '0'
+let pos_2 = '0'
+let pos_3 = '0'
 let emergency_button = '0'
 
 //now
@@ -64,7 +64,6 @@ const check_lux = '0'
 $(function () {
     $(set_position())
     setInterval(function () {
-        $(move('3'))
         //get time
         let date = new Date()
         date_hr = date.getHours()
@@ -76,9 +75,10 @@ $(function () {
 
         //get data from hardware
         $(get_value)
-        snumber = number.toString()
-        cur_per = snumber
+        cur_per = '1'
         console.log(`position: ${cur_per}`)
+
+
         if(date_hr == hr && date_min == min){
             $(move())
         }
@@ -162,16 +162,6 @@ $(function () {
             change = '1'
         }
     }, 1000)
-    
-    //emergency butt
-    $('#emergency-button').on('click', function () {
-    //    $(set('emer','1'))
-        number++;
-    })
-
-    $('#hr0').click(function () {
-        console.log('hr0')
-      })
 
     //submit[now]
     $('#submit-n').on('click', function () {
@@ -393,6 +383,19 @@ $(function () {
          dawn = '1'
          dusk = '0'
      })
+
+     $('#go').on('click',function(){
+        let int_humit = parseInt(humit)
+        if(int_humit > 70){
+            alert('ความชื้นเยอะแล้ว!!!!!')
+        } else {
+            pos_1 = '1'
+            pos_2 = '1'
+            pos_3 = '1'
+            $(set_position())
+            $(move('3'))
+        }
+     })
 })
 
 let GET = (u) => {
@@ -419,8 +422,8 @@ let get_value = () => {
         console.log(`pos3: ${pos_3}`)
     })
     let test = GET('cur_pos').then((res) => {
-        cur_pos = res
-        console.log(`position: ${cur_pos}`)
+        cur_per = res
+        console.log(`position: ${cur_per}`)
     })
     let test2 = GET('watering').then((res) => {
         watering = res
@@ -493,15 +496,18 @@ let next_pos = (now) => {
 }
 
 let move = (position) => {
+    let start = '1'
+    let next_position = '-'
     let loop = setInterval(function() {
         $(get_value)
-        if (watering === '0' && cur_per !== '0' && done === '0') {
+        if (cur_per == next_position && cur_per !== '0' && done === '0') {
             $(set('watering', '30'))
             done = '1'
         }
-        else if ((watering !== last_data && last_data !== '0')|| cur_per === '0') {
-            let next_position = $(next_pos(cur_per))
+        else if ((watering !== last_data && last_data !== '0')|| (cur_per === '0' && start === '1')) {
+             next_position = $(next_pos(cur_per))
             $(set('goto_pos', next_position))
+            start = '0'
         }
         else if (moving === '1') {
             done = '0'
@@ -740,4 +746,5 @@ let set_position = () => {
     $(set('pos_1',pos_1))
     $(set('pos_2',pos_2))
     $(set('pos_3',pos_3))
+    $(set('watering','0'))
 }
